@@ -1,0 +1,71 @@
+rm(list=ls())
+cat("\014")
+
+setwd("~/Desktop/MetsMud2022")
+dir()
+
+EK<-read.csv2("ekMSMAest.csv", sep = ";",dec = ",",stringsAsFactors = F)
+EY<-read.csv2("eyMSMAest.csv", sep = ";",dec = ",",stringsAsFactors = F)
+
+names(EY)<-tolower(names(EY))
+names(EK)<-tolower(names(EK))
+names(EY)
+names(EK)
+
+# How many stands are included in the data set?
+nrow(EY)
+
+# How many hectares is the total area of stands?
+sum(EY$pindala)
+
+summary(EY$pindala)
+# How many stands have area 0 in your data set?
+EY0<-subset(EY,pindala==0)
+
+# Exclude stands with zero area from the data  set EY
+EYA0<-subset(EY,pindala>0)
+
+# How many hectares is the largest stand area in your data set?
+X<-max(EY$pindala)
+
+summary(EY$pindala)
+# What is the average stand area in your data set?
+Y<-mean(EY$pindala)
+
+# Create a data set of mature forest EYY
+# First selecting necessary variables from EY
+Z<-subset(EY,select=c(arengukl,pindala,h100,keskm_a))
+table(Z$arengukl)
+EYY<-subset(Z,arengukl=="Y")
+
+# What is area of mature forest in your data set?
+Z1<-subset(EY,arengukl=="Y")
+sum(Z1$pindala)
+
+
+# How many percent of the forest area is the mature forest area
+sum(Z1$pindala)/sum(EY$pindala)*100
+
+
+# How many stands have site index zero (h100=0) in mature forest data set?
+nrow(subset(EY,arengukl=="Y" & h100==0))
+
+# Exclude stands with h100=0 from the mature forest data set
+nrow(subset(EY,arengukl=="Y" & h100>0))
+
+# What is the average site index h100 of mature forest?
+summary(Z$h100)
+
+# or
+
+mean(Z$h100)
+  
+# Exclude stands with age (keskm_a) more than 300 years from mature forest data set (if is)
+S3<-subset(Z,keskm_a>300)
+
+# What is average age of mature forest?
+A<-summary(Z$keskm_a)
+
+# or
+
+A1<-mean(Z$keskm_a)
